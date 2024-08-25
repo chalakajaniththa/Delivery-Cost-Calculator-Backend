@@ -1,17 +1,11 @@
-const express = require('express')
-const mongoose = require('mongoose')
+const express = require('express');
 const connectDB = require('./config/db');
-const app = express()
+const zoneRoutes = require('./routes/zoneRoutes');
 
-//routes
+const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello Node API')
-})
-
-app.get('/blog', (req, res) => {
-    res.send('Hello Blog, This is my first express app.')
-})
+/// Routes
+app.use('', zoneRoutes);
 
 // const uri = "mongodb+srv://admin:admin123@delivery-cost-calculato.jgdq6.mongodb.net/?retryWrites=true&w=majority&appName=Delivery-Cost-Calculator-Database";
 
