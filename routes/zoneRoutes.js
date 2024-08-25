@@ -1,12 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const zoneController = require('../controllers/zoneController');
 
-router.get('/', (req, res) => {
-    res.send('Hello Node API')
-})
-
-router.get('/blog', (req, res) => {
-    res.send('Hello Blog, This is my first express app.')
-})
+router.get('/', zoneController.getHome);
+router.get('/blog', zoneController.getBlog);
 
 module.exports = router;
