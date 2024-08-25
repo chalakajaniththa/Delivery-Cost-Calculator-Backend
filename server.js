@@ -1,14 +1,18 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const zoneRoutes = require('./routes/zoneRoutes');
+require('dotenv').config();
 
 const app = express();
 
-/// Routes
-app.use('', zoneRoutes);
-
 // Connect to MongoDB
 connectDB();
+
+// Middleware to parse JSON requests
+app.use(express.json());
+
+// Routes
+app.use('/api/zones', zoneRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 5000;
