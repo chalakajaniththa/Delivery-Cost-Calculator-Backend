@@ -1,55 +1,71 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const SuburbSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    state: { type: String, required: true },
-    postalCodes: {
-        range: {
-            start: { type: String },
-            end: { type: String }
-        },
-        single: { type: String },
-        list: [String]
+// Define Suburb Schema
+const suburbSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  state: {
+    type: String,
+    required: true,
+  },
+  postalCodes: {
+    range: {
+      start: String,
+      end: String,
     },
-    delivery_costs: {
-        fixed: {
-            thresholds: {
-                "60": { type: Number },
-                "100": { type: Number }
-            },
-            above_threshold: { type: Number }
-        },
-        weights: {
-            type: Map,
-            of: {
-                thresholds: {
-                    "60": { type: Number },
-                    "100": { type: Number }
-                },
-                above_threshold: { type: Number }
-            }
-        }
+    single: String,
+    list: [String],
+  },
+  delivery_costs: {
+    fixed: {
+      thresholds: {
+        "60": Number,
+        "100": Number,
+      },
+      above_threshold: Number,
     },
-    pickup_options: {
+    weights: {
+      type: Map,
+      of: new Schema({
         thresholds: {
-            "60": { type: Number },
-            "100": { type: Number }
+          "60": Number,
+          "100": Number,
         },
-        above_threshold: { type: Number }
-    }
+        above_threshold: Number,
+      }),
+    },
+  },
+  pickup_options: {
+    thresholds: {
+      "60": Number,
+      "100": Number,
+    },
+    above_threshold: Number,
+  },
 });
 
-const CitySchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    suburbs: [SuburbSchema]
+// Define City Schema
+const citySchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  suburbs: [suburbSchema],
 });
 
-const ZoneSchema = new mongoose.Schema({
-    zoneName: { type: String, required: true },
-    postalCode: { type: String, required: true },
-    cities: [CitySchema]
-});
+// Define State Schema
+const stateSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  cities: [citySchema],
+}, { timestamps: true });
 
-const Zone = mongoose.model('Zone', ZoneSchema);
+// Create the State Model
+const Zone = mongoose.model('State', stateSchema);
 
 module.exports = Zone;
