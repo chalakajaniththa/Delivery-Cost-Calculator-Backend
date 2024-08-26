@@ -1,5 +1,6 @@
 const express = require('express');
 const connectDB = require('./config/db');
+const cors = require('cors');
 const zoneRoutes = require('./routes/zoneRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 require('dotenv').config();
@@ -11,6 +12,8 @@ connectDB();
 
 // Middleware to parse JSON requests
 app.use(express.json());
+
+app.use(cors()); // Allow all origins by default
 
 // Routes
 app.use('/api/zones', zoneRoutes);
